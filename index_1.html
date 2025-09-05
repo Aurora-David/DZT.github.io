@@ -1,0 +1,994 @@
+<html lang="zh-CN"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegance - 现代设计工作室</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 引入Google字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    
+    <!-- Tailwind配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#FF7D00',
+                        dark: '#1D2939',
+                        light: '#F9FAFB',
+                        muted: '#667085'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <!-- 自定义工具类 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .transition-custom {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .scale-hover {
+                @apply hover:scale-105 transition-all duration-300;
+            }
+            .card-hover {
+                @apply hover:shadow-xl hover:-translate-y-1 transition-all duration-300;
+            }
+        }
+    </style>
+    
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(22, 93, 255, 0.9) 0%, rgba(22, 93, 255, 0.7) 100%);
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background-color: #165DFF;
+            transition: height 0.3s ease;
+        }
+        
+        .service-card:hover::before {
+            height: 100%;
+        }
+        
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background-color: #165DFF;
+            z-index: 50;
+            transition: width 0.2s ease;
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fadeInUp {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+    </style>
+</head>
+
+<body class="bg-light text-dark font-inter">
+    <!-- 进度条 -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- 导航栏 -->
+    <header id="navbar" class="fixed w-full top-0 z-40 transition-all duration-300 bg-transparent">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <a href="#" class="flex items-center space-x-2">
+                    <span class="text-2xl font-bold text-white text-shadow">Elegance</span>
+                </a>
+                
+                <!-- 桌面导航 -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-white hover:text-secondary transition-custom">首页</a>
+                    <a href="#services" class="text-white hover:text-secondary transition-custom">服务</a>
+                    <a href="#projects" class="text-white hover:text-secondary transition-custom">项目</a>
+                    <a href="#testimonials" class="text-white hover:text-secondary transition-custom">客户评价</a>
+                    <a href="#contact" class="text-white hover:text-secondary transition-custom">联系我们</a>
+                </nav>
+                
+                <!-- 联系按钮 -->
+                <div class="hidden md:block">
+                    <a href="#contact" class="bg-secondary hover:bg-secondary/90 text-white px-6 py-2 rounded-full transition-custom shadow-lg hover:shadow-xl">
+                        立即咨询
+                    </a>
+                </div>
+                
+                <!-- 移动端菜单按钮 -->
+                <button id="menuBtn" class="md:hidden text-white text-2xl">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 移动端导航菜单 -->
+        <div id="mobileMenu" class="md:hidden bg-white shadow-lg absolute w-full left-0 top-full transform -translate-y-full opacity-0 transition-all duration-300 pointer-events-none">
+            <div class="container mx-auto px-4 py-4 flex flex-col space-y-4">
+                <a href="#home" class="text-dark hover:text-primary py-2 transition-custom">首页</a>
+                <a href="#services" class="text-dark hover:text-primary py-2 transition-custom">服务</a>
+                <a href="#projects" class="text-dark hover:text-primary py-2 transition-custom">项目</a>
+                <a href="#testimonials" class="text-dark hover:text-primary py-2 transition-custom">客户评价</a>
+                <a href="#contact" class="text-dark hover:text-primary py-2 transition-custom">联系我们</a>
+                <a href="#contact" class="bg-secondary hover:bg-secondary/90 text-white px-6 py-3 rounded-full text-center transition-custom shadow-md">
+                    立即咨询
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section id="home" class="hero-gradient min-h-screen flex items-center relative overflow-hidden">
+        <!-- 背景装饰 -->
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute w-64 h-64 rounded-full bg-white top-20 left-10"></div>
+            <div class="absolute w-96 h-96 rounded-full bg-white bottom-20 right-10"></div>
+            <div class="absolute w-40 h-40 rounded-full bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
+            <div class="max-w-3xl">
+                <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold text-white leading-tight text-shadow mb-6 animate-fadeInUp">
+                    打造令人惊叹的<br>数字体验
+                </h1>
+                <p class="text-[clamp(1rem,2vw,1.25rem)] text-white/90 mb-8 max-w-2xl animate-fadeInUp delay-200">
+                    我们是一家专注于品牌策略、网站设计和数字营销的创意工作室，帮助企业在数字世界中脱颖而出。
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 animate-fadeInUp delay-300">
+                    <a href="#projects" class="bg-white text-primary hover:bg-gray-100 px-8 py-3 rounded-full font-medium transition-custom shadow-lg hover:shadow-xl text-center">
+                        查看我们的作品
+                    </a>
+                    <a href="#contact" class="bg-transparent border-2 border-white text-white hover:bg-white/10 px-8 py-3 rounded-full font-medium transition-custom text-center">
+                        联系我们
+                    </a>
+                </div>
+                
+                <!-- 统计数据 -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 animate-fadeInUp delay-400">
+                    <div>
+                        <h3 class="text-4xl font-bold text-white mb-1">120+</h3>
+                        <p class="text-white/80">成功项目</p>
+                    </div>
+                    <div>
+                        <h3 class="text-4xl font-bold text-white mb-1">85+</h3>
+                        <p class="text-white/80">满意客户</p>
+                    </div>
+                    <div>
+                        <h3 class="text-4xl font-bold text-white mb-1">15+</h3>
+                        <p class="text-white/80">行业经验</p>
+                    </div>
+                    <div>
+                        <h3 class="text-4xl font-bold text-white mb-1">24</h3>
+                        <p class="text-white/80">设计奖项</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 向下滚动按钮 -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
+            <a href="#services" class="text-white opacity-80 hover:opacity-100 transition-custom">
+                <i class="fa fa-chevron-down text-2xl"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- 服务部分 -->
+    <section id="services" class="py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- 标题 -->
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">我们的专业服务</h2>
+                <p class="text-muted text-lg">我们提供全方位的数字解决方案，帮助您的品牌在数字世界中取得成功</p>
+            </div>
+            
+            <!-- 服务卡片 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 服务1 -->
+                <div class="service-card bg-light p-8 rounded-xl shadow-md relative card-hover reveal">
+                    <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fa fa-paint-brush text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">品牌设计</h3>
+                    <p class="text-muted mb-6">创建独特而令人难忘的品牌标识，包括标志设计、色彩系统和品牌指南。</p>
+                    <a href="#contact" class="text-primary font-medium inline-flex items-center">
+                        了解更多 <i class="fa fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- 服务2 -->
+                <div class="service-card bg-light p-8 rounded-xl shadow-md relative card-hover reveal delay-100">
+                    <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fa fa-code text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">网站开发</h3>
+                    <p class="text-muted mb-6">构建响应式、高性能的网站，提供卓越的用户体验和强大的功能。</p>
+                    <a href="#contact" class="text-primary font-medium inline-flex items-center">
+                        了解更多 <i class="fa fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- 服务3 -->
+                <div class="service-card bg-light p-8 rounded-xl shadow-md relative card-hover reveal delay-200">
+                    <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fa fa-mobile text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">移动应用</h3>
+                    <p class="text-muted mb-6">设计和开发直观、功能丰富的移动应用，满足现代用户需求。</p>
+                    <a href="#contact" class="text-primary font-medium inline-flex items-center">
+                        了解更多 <i class="fa fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- 服务4 -->
+                <div class="service-card bg-light p-8 rounded-xl shadow-md relative card-hover reveal delay-300">
+                    <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fa fa-line-chart text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">数字营销</h3>
+                    <p class="text-muted mb-6">制定有效的数字营销策略，提高品牌知名度和客户参与度。</p>
+                    <a href="#contact" class="text-primary font-medium inline-flex items-center">
+                        了解更多 <i class="fa fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- 服务5 -->
+                <div class="service-card bg-light p-8 rounded-xl shadow-md relative card-hover reveal delay-400">
+                    <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fa fa-camera text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">内容创作</h3>
+                    <p class="text-muted mb-6">制作高质量的视觉和文字内容，讲述您的品牌故事并吸引目标受众。</p>
+                    <a href="#contact" class="text-primary font-medium inline-flex items-center">
+                        了解更多 <i class="fa fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- 服务6 -->
+                <div class="service-card bg-light p-8 rounded-xl shadow-md relative card-hover reveal delay-500">
+                    <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fa fa-search text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">SEO优化</h3>
+                    <p class="text-muted mb-6">优化您的在线存在，提高搜索引擎排名，增加有机流量和转化率。</p>
+                    <a href="#contact" class="text-primary font-medium inline-flex items-center">
+                        了解更多 <i class="fa fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我们 -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2 reveal">
+                    <div class="relative">
+                        <img src="https://picsum.photos/600/800" alt="我们的团队在创意工作空间中合作" class="rounded-2xl shadow-xl w-full h-auto">
+                        <div class="absolute -bottom-6 -right-6 bg-white p-6 rounded-xl shadow-lg hidden md:block">
+                            <div class="flex items-center space-x-2">
+                                <div class="text-secondary">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <span class="font-bold">5.0/5</span>
+                            </div>
+                            <p class="text-sm text-muted mt-1">来自85+满意客户</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2 reveal delay-200">
+                    <h6 class="text-primary font-semibold mb-3">关于我们</h6>
+                    <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-6">15年专注于创造卓越的数字体验</h2>
+                    <p class="text-muted mb-6 text-lg">Elegance成立于2008年，是一家由创意专家和技术爱好者组成的数字设计工作室。我们致力于为客户提供创新的解决方案，帮助他们在数字时代取得成功。</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class="fa fa-check text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-2">创意解决方案</h4>
+                                <p class="text-muted">为每个客户提供量身定制的创意方案</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class="fa fa-check text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-2">专业团队</h4>
+                                <p class="text-muted">拥有多年行业经验的专业人才</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class="fa fa-check text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-2">按时交付</h4>
+                                <p class="text-muted">严格遵守时间节点，确保项目按时完成</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class="fa fa-check text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-2">持续支持</h4>
+                                <p class="text-muted">项目完成后提供长期技术支持和维护</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="#contact" class="inline-block bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-full font-medium transition-custom shadow-lg hover:shadow-xl">
+                        与我们合作
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目展示 -->
+    <section id="projects" class="py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- 标题 -->
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">精选项目</h2>
+                <p class="text-muted text-lg">探索我们最近完成的一些令人惊叹的项目，展示我们的创意和技术能力</p>
+            </div>
+            
+            <!-- 项目过滤器 -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12 reveal delay-100">
+                <button class="project-filter active px-6 py-2 rounded-full bg-primary text-white transition-custom" data-filter="all">全部项目</button>
+                <button class="project-filter px-6 py-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-custom" data-filter="web">网站设计</button>
+                <button class="project-filter px-6 py-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-custom" data-filter="brand">品牌设计</button>
+                <button class="project-filter px-6 py-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-custom" data-filter="app">移动应用</button>
+            </div>
+            
+            <!-- 项目网格 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 项目1 -->
+                <div class="project-item group" data-category="web">
+                    <div class="relative overflow-hidden rounded-xl shadow-md card-hover reveal">
+                        <img src="https://picsum.photos/600/400?random=1" alt="现代电子商务网站设计" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                            <h3 class="text-white font-bold text-xl mb-2">现代电子商务网站</h3>
+                            <p class="text-white/80 mb-4">为时尚品牌打造的高端电子商务平台</p>
+                            <a href="#" class="text-white font-medium inline-flex items-center">
+                                查看详情 <i class="fa fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目2 -->
+                <div class="project-item group" data-category="brand">
+                    <div class="relative overflow-hidden rounded-xl shadow-md card-hover reveal delay-100">
+                        <img src="https://picsum.photos/600/400?random=2" alt="有机食品品牌标识设计" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                            <h3 class="text-white font-bold text-xl mb-2">有机食品品牌设计</h3>
+                            <p class="text-white/80 mb-4">完整的品牌标识系统和包装设计</p>
+                            <a href="#" class="text-white font-medium inline-flex items-center">
+                                查看详情 <i class="fa fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目3 -->
+                <div class="project-item group" data-category="app">
+                    <div class="relative overflow-hidden rounded-xl shadow-md card-hover reveal delay-200">
+                        <img src="https://picsum.photos/600/400?random=3" alt="健康追踪移动应用界面" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                            <h3 class="text-white font-bold text-xl mb-2">健康追踪应用</h3>
+                            <p class="text-white/80 mb-4">直观易用的健康和健身追踪应用</p>
+                            <a href="#" class="text-white font-medium inline-flex items-center">
+                                查看详情 <i class="fa fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目4 -->
+                <div class="project-item group" data-category="web">
+                    <div class="relative overflow-hidden rounded-xl shadow-md card-hover reveal delay-300">
+                        <img src="https://picsum.photos/600/400?random=4" alt="创意机构网站设计" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                            <h3 class="text-white font-bold text-xl mb-2">创意机构网站</h3>
+                            <p class="text-white/80 mb-4">展示创意作品的互动式网站</p>
+                            <a href="#" class="text-white font-medium inline-flex items-center">
+                                查看详情 <i class="fa fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目5 -->
+                <div class="project-item group" data-category="brand">
+                    <div class="relative overflow-hidden rounded-xl shadow-md card-hover reveal delay-400">
+                        <img src="https://picsum.photos/600/400?random=5" alt="精品咖啡馆品牌重塑" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                            <h3 class="text-white font-bold text-xl mb-2">精品咖啡馆品牌</h3>
+                            <p class="text-white/80 mb-4">品牌重塑和视觉识别系统</p>
+                            <a href="#" class="text-white font-medium inline-flex items-center">
+                                查看详情 <i class="fa fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目6 -->
+                <div class="project-item group" data-category="app">
+                    <div class="relative overflow-hidden rounded-xl shadow-md card-hover reveal delay-500">
+                        <img src="https://picsum.photos/600/400?random=6" alt="金融管理应用界面设计" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                            <h3 class="text-white font-bold text-xl mb-2">金融管理应用</h3>
+                            <p class="text-white/80 mb-4">用户友好的个人财务管理工具</p>
+                            <a href="#" class="text-white font-medium inline-flex items-center">
+                                查看详情 <i class="fa fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 查看更多按钮 -->
+            <div class="text-center mt-12 reveal delay-300">
+                <a href="#" class="inline-block border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-3 rounded-full font-medium transition-custom">
+                    查看更多项目
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 客户评价 -->
+    <section id="testimonials" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- 标题 -->
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">客户的声音</h2>
+                <p class="text-muted text-lg">听听我们的客户对与Elegance合作的体验和成果的评价</p>
+            </div>
+            
+            <!-- 评价滑块 -->
+            <div class="testimonial-slider relative">
+                <div class="overflow-hidden">
+                    <div class="testimonial-track flex transition-transform duration-500" style="transform: translateX(0);">
+                        <!-- 评价1 -->
+                        <div class="testimonial-item min-w-full md:min-w-[50%] lg:min-w-[33.333%] p-4">
+                            <div class="bg-white p-8 rounded-xl shadow-md h-full card-hover reveal">
+                                <div class="text-secondary mb-4">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <p class="text-muted mb-6 italic">"与Elegance合作是一次愉快的经历。他们不仅理解我们的品牌愿景，还将其转化为一个令人惊叹的网站，帮助我们吸引了更多客户。"</p>
+                                <div class="flex items-center">
+                                    <img src="https://picsum.photos/100/100?random=10" alt="客户头像" class="w-12 h-12 rounded-full object-cover mr-4">
+                                    <div>
+                                        <h4 class="font-bold">张明</h4>
+                                        <p class="text-sm text-muted">某科技公司 CEO</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 评价2 -->
+                        <div class="testimonial-item min-w-full md:min-w-[50%] lg:min-w-[33.333%] p-4">
+                            <div class="bg-white p-8 rounded-xl shadow-md h-full card-hover reveal delay-100">
+                                <div class="text-secondary mb-4">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <p class="text-muted mb-6 italic">"Elegance为我们创建的品牌标识完全超出了预期。他们的创意能力和对细节的关注令人印象深刻，我们的客户现在更容易记住我们的品牌。"</p>
+                                <div class="flex items-center">
+                                    <img src="https://picsum.photos/100/100?random=11" alt="客户头像" class="w-12 h-12 rounded-full object-cover mr-4">
+                                    <div>
+                                        <h4 class="font-bold">李娜</h4>
+                                        <p class="text-sm text-muted">某餐饮品牌创始人</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 评价3 -->
+                        <div class="testimonial-item min-w-full md:min-w-[50%] lg:min-w-[33.333%] p-4">
+                            <div class="bg-white p-8 rounded-xl shadow-md h-full card-hover reveal delay-200">
+                                <div class="text-secondary mb-4">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-half-o"></i>
+                                </div>
+                                <p class="text-muted mb-6 italic">"我们的移动应用由Elegance开发，用户反馈非常积极。应用的设计既美观又实用，大大提升了我们的用户参与度。"</p>
+                                <div class="flex items-center">
+                                    <img src="https://picsum.photos/100/100?random=12" alt="客户头像" class="w-12 h-12 rounded-full object-cover mr-4">
+                                    <div>
+                                        <h4 class="font-bold">王浩</h4>
+                                        <p class="text-sm text-muted">某健康科技公司产品经理</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 评价4 -->
+                        <div class="testimonial-item min-w-full md:min-w-[50%] lg:min-w-[33.333%] p-4">
+                            <div class="bg-white p-8 rounded-xl shadow-md h-full card-hover">
+                                <div class="text-secondary mb-4">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <p class="text-muted mb-6 italic">"Elegance的数字营销策略帮助我们的在线业务增长了200%。他们不仅提供了战略指导，还执行得非常出色。"</p>
+                                <div class="flex items-center">
+                                    <img src="https://picsum.photos/100/100?random=13" alt="客户头像" class="w-12 h-12 rounded-full object-cover mr-4">
+                                    <div>
+                                        <h4 class="font-bold">陈静</h4>
+                                        <p class="text-sm text-muted">某电商平台营销总监</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 滑块控制按钮 -->
+                <button id="prevTestimonial" class="absolute top-1/2 left-4 transform -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-custom z-10 hidden md:flex">
+                    <i class="fa fa-chevron-left"></i>
+                </button>
+                <button id="nextTestimonial" class="absolute top-1/2 right-4 transform -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-custom z-10 hidden md:flex">
+                    <i class="fa fa-chevron-right"></i>
+                </button>
+                
+                <!-- 滑块指示器 -->
+                <div class="flex justify-center mt-8 space-x-2">
+                    <button class="testimonial-dot w-3 h-3 rounded-full bg-primary transition-custom" data-index="0"></button>
+                    <button class="testimonial-dot w-3 h-3 rounded-full bg-gray-300 transition-custom" data-index="1"></button>
+                    <button class="testimonial-dot w-3 h-3 rounded-full bg-gray-300 transition-custom" data-index="2"></button>
+                    <button class="testimonial-dot w-3 h-3 rounded-full bg-gray-300 transition-custom" data-index="3"></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row gap-12">
+                <div class="lg:w-1/2 reveal">
+                    <h6 class="text-primary font-semibold mb-3">联系我们</h6>
+                    <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-6">准备好开始您的项目了吗？</h2>
+                    <p class="text-muted mb-8 text-lg">无论您需要全新的品牌标识、现代化的网站还是创新的移动应用，我们都能为您提供解决方案。填写表单或直接联系我们，开始讨论您的项目。</p>
+                    
+                    <div class="space-y-6 mb-8">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fa fa-map-marker text-xl text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1">地址</h4>
+                                <p class="text-muted">上海市浦东新区张江高科技园区博云路2号</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fa fa-phone text-xl text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1">电话</h4>
+                                <p class="text-muted">+86 21 5555 8888</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fa fa-envelope text-xl text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1">邮箱</h4>
+                                <p class="text-muted">info@elegance-studio.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-primary/10 hover:bg-primary hover:text-white rounded-full flex items-center justify-center text-primary transition-custom">
+                            <i class="fa fa-weixin"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-primary/10 hover:bg-primary hover:text-white rounded-full flex items-center justify-center text-primary transition-custom">
+                            <i class="fa fa-weibo"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-primary/10 hover:bg-primary hover:text-white rounded-full flex items-center justify-center text-primary transition-custom">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-primary/10 hover:bg-primary hover:text-white rounded-full flex items-center justify-center text-primary transition-custom">
+                            <i class="fa fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2 reveal delay-200">
+                    <div class="bg-light p-8 rounded-2xl shadow-lg">
+                        <h3 class="text-2xl font-bold mb-6">发送消息</h3>
+                        <form id="contactForm">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label for="name" class="block text-sm font-medium text-dark mb-2">姓名</label>
+                                    <input type="text" id="name" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-custom" placeholder="您的姓名">
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-dark mb-2">邮箱</label>
+                                    <input type="email" id="email" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-custom" placeholder="您的邮箱">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="subject" class="block text-sm font-medium text-dark mb-2">主题</label>
+                                <input type="text" id="subject" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-custom" placeholder="消息主题">
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="message" class="block text-sm font-medium text-dark mb-2">消息</label>
+                                <textarea id="message" rows="5" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-custom resize-none" placeholder="请详细描述您的需求..."></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-medium transition-custom shadow-lg hover:shadow-xl">
+                                发送消息
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white pt-16 pb-8">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <a href="#" class="flex items-center space-x-2 mb-6">
+                        <span class="text-2xl font-bold text-white">Elegance</span>
+                    </a>
+                    <p class="text-gray-400 mb-6">我们是一家专注于品牌策略、网站设计和数字营销的创意工作室，帮助企业在数字世界中脱颖而出。</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-custom">
+                            <i class="fa fa-weixin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-custom">
+                            <i class="fa fa-weibo text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-custom">
+                            <i class="fa fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-custom">
+                            <i class="fa fa-instagram text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-6">快速链接</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition-custom">首页</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition-custom">服务</a></li>
+                        <li><a href="#projects" class="text-gray-400 hover:text-white transition-custom">项目</a></li>
+                        <li><a href="#testimonials" class="text-gray-400 hover:text-white transition-custom">客户评价</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition-custom">联系我们</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-6">服务</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">品牌设计</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">网站开发</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">移动应用</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">数字营销</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">内容创作</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-6">联系信息</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start space-x-3">
+                            <i class="fa fa-map-marker text-gray-400 mt-1"></i>
+                            <span class="text-gray-400">上海市浦东新区张江高科技园区博云路2号</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fa fa-phone text-gray-400"></i>
+                            <span class="text-gray-400">+86 21 5555 8888</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fa fa-envelope text-gray-400"></i>
+                            <span class="text-gray-400">info@elegance-studio.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr class="border-gray-800 mb-8">
+            
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2025 Aurora_David - 个人作品集. 网页部分初始代码由豆包AI辅助生成.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white text-sm transition-custom">隐私政策</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm transition-custom">服务条款</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm transition-custom">Cookie政策</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="backToTop" class="fixed bottom-8 right-8 w-12 h-12 bg-primary text-white rounded-full shadow-lg flex items-center justify-center opacity-0 invisible transition-all duration-300 z-50">
+        <i class="fa fa-chevron-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script>
+        // 导航栏滚动效果
+        const navbar = document.getElementById('navbar');
+        const backToTop = document.getElementById('backToTop');
+        const progressBar = document.getElementById('progressBar');
+        
+        window.addEventListener('scroll', function() {
+            // 导航栏背景变化
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-dark/95', 'shadow-md');
+                navbar.classList.remove('bg-transparent');
+            } else {
+                navbar.classList.remove('bg-dark/95', 'shadow-md');
+                navbar.classList.add('bg-transparent');
+            }
+            
+            // 返回顶部按钮显示/隐藏
+            if (window.scrollY > 300) {
+                backToTop.classList.remove('opacity-0', 'invisible');
+                backToTop.classList.add('opacity-100', 'visible');
+            } else {
+                backToTop.classList.add('opacity-0', 'invisible');
+                backToTop.classList.remove('opacity-100', 'visible');
+            }
+            
+            // 进度条更新
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+            const clientHeight = document.documentElement.clientHeight || window.innerHeight;
+            const scrollPercentage = (scrollTop / (scrollHeight - clientHeight)) * 100;
+            progressBar.style.width = scrollPercentage + '%';
+            
+            // 滚动动画
+            revealElements();
+        });
+        
+        // 移动端菜单
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        let menuOpen = false;
+        
+        menuBtn.addEventListener('click', function() {
+            if (menuOpen) {
+                mobileMenu.classList.add('-translate-y-full', 'opacity-0', 'pointer-events-none');
+                menuBtn.innerHTML = '<i class="fa fa-bars"></i>';
+            } else {
+                mobileMenu.classList.remove('-translate-y-full', 'opacity-0', 'pointer-events-none');
+                menuBtn.innerHTML = '<i class="fa fa-times"></i>';
+            }
+            menuOpen = !menuOpen;
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                // 关闭移动菜单（如果打开）
+                if (menuOpen) {
+                    mobileMenu.classList.add('-translate-y-full', 'opacity-0', 'pointer-events-none');
+                    menuBtn.innerHTML = '<i class="fa fa-bars"></i>';
+                    menuOpen = false;
+                }
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // 返回顶部
+        backToTop.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // 项目过滤
+        const projectFilters = document.querySelectorAll('.project-filter');
+        const projectItems = document.querySelectorAll('.project-item');
+        
+        projectFilters.forEach(filter => {
+            filter.addEventListener('click', function() {
+                // 更新活跃状态
+                projectFilters.forEach(f => {
+                    f.classList.remove('active', 'bg-primary', 'text-white');
+                    f.classList.add('bg-gray-100');
+                });
+                this.classList.add('active', 'bg-primary', 'text-white');
+                this.classList.remove('bg-gray-100');
+                
+                const category = this.getAttribute('data-filter');
+                
+                // 过滤项目
+                projectItems.forEach(item => {
+                    if (category === 'all' || item.getAttribute('data-category') === category) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // 评价滑块
+        const track = document.querySelector('.testimonial-track');
+        const prevBtn = document.getElementById('prevTestimonial');
+        const nextBtn = document.getElementById('nextTestimonial');
+        const dots = document.querySelectorAll('.testimonial-dot');
+        let currentIndex = 0;
+        const itemWidth = 100; // 百分比
+        const totalItems = document.querySelectorAll('.testimonial-item').length;
+        
+        // 根据屏幕尺寸调整可见项目数量
+        function getVisibleItems() {
+            if (window.innerWidth >= 1024) return 3; // lg
+            if (window.innerWidth >= 768) return 2; // md
+            return 1; // sm
+        }
+        
+        function updateSlider() {
+            const visibleItems = getVisibleItems();
+            const maxIndex = totalItems - visibleItems;
+            currentIndex = Math.max(0, Math.min(currentIndex, maxIndex));
+            
+            const translateValue = -currentIndex * (itemWidth / visibleItems);
+            track.style.transform = `translateX(${translateValue}%)`;
+            
+            // 更新指示器
+            dots.forEach((dot, index) => {
+                if (index === currentIndex) {
+                    dot.classList.add('bg-primary');
+                    dot.classList.remove('bg-gray-300');
+                } else {
+                    dot.classList.remove('bg-primary');
+                    dot.classList.add('bg-gray-300');
+                }
+            });
+        }
+        
+        prevBtn.addEventListener('click', () => {
+            currentIndex--;
+            updateSlider();
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            currentIndex++;
+            updateSlider();
+        });
+        
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentIndex = index;
+                updateSlider();
+            });
+        });
+        
+        window.addEventListener('resize', updateSlider);
+        
+        // 滚动显示动画
+        function revealElements() {
+            const reveals = document.querySelectorAll('.reveal');
+            
+            reveals.forEach(reveal => {
+                const windowHeight = window.innerHeight;
+                const revealTop = reveal.getBoundingClientRect().top;
+                const revealPoint = 150;
+                
+                if (revealTop < windowHeight - revealPoint) {
+                    reveal.classList.add('animate-fadeInUp');
+                }
+            });
+        }
+        
+        // 表单提交
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // 这里可以添加表单验证和提交逻辑
+                alert('感谢您的留言！我们会尽快与您联系。');
+                contactForm.reset();
+            });
+        }
+        
+        // 初始化
+        window.addEventListener('load', function() {
+            updateSlider();
+            revealElements();
+        });
+    </script>
+
+
+</body></html>
